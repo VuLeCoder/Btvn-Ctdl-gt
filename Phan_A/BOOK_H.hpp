@@ -58,9 +58,11 @@ class BOOK{
     	void setPrice(double p) {price = p;}
     	
     	string getId() {return	id;}
-    	double getPrice() {return price;}
+    	string getName() {return name;}
     	string getIdName() {return idName;}
+    	string getAuthor() {return author;}
     	string getIdAuthor() {return idAuthor;}
+    	double getPrice() {return price;}
 };
 
 #endif

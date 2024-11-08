@@ -22,16 +22,32 @@ class LIST_BOOK : public BOOK{
 				for(BOOK x : books)
 					cout << x << "\n";
 		}
-		
-//		BOOK getBook(int index) {return books[index];}
+				
+		bool isValidId(string _id)
+		{
+			for(BOOK book : books)
+				if(_id == book.getId())
+					return false;
+			return true;
+		}
 		
 		void addBook(int n)
 		{
 			BOOK book;
 			for(int i=0; i<n; ++i){
-				
+				cout << "----- Nhap thong tin : \n";
 				cin >> book;
-				books.push_back(book);
+
+				if(book.getName().length() > 0)
+				{
+					if(book.getAuthor().length() > 0)
+					{
+						if(isValidId(book.getId())) books.push_back(book);
+						else cout << "Id da ton tai\nVui long nhap lai\n", --i;
+					}
+					else cout << "Ten tac gia khong duoc de trong\nVui long nhap lai\n", --i;
+				}
+				else cout << "Ten sach khong duoc de trong\nVui long nhap lai\n", --i;
 				cout <<"\n";
 			}
 		}
