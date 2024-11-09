@@ -43,11 +43,11 @@ class LIST_BOOK : public BOOK{
 					if(book.getAuthor().length() > 0)
 					{
 						if(isValidId(book.getId())) books.push_back(book);
-						else cout << "Id da ton tai\nVui long nhap lai\n", --i;
+						else cout << "--- Id da ton tai\n------ Vui long nhap lai\n", --i;
 					}
-					else cout << "Ten tac gia khong duoc de trong\nVui long nhap lai\n", --i;
+					else cout << "--- Ten tac gia khong duoc de trong\n------ Vui long nhap lai\n", --i;
 				}
-				else cout << "Ten sach khong duoc de trong\nVui long nhap lai\n", --i;
+				else cout << "--- Ten sach khong duoc de trong\n------ Vui long nhap lai\n", --i;
 				cout <<"\n";
 			}
 		}
