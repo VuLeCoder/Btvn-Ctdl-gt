@@ -2,7 +2,6 @@
 #define PRIORITY_QUEUE 1
 
 #include <iostream>
-//#include <vector>
 #include "VECTOR_H.hpp"
 #include "COMPARE_H.hpp"
 
