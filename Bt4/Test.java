@@ -42,7 +42,7 @@ public class Test {
 // --------------------------------------------------------------------
 		int cnt = 0;
 		for(int i=1; i<arr.size(); ++i) {
-			if(arr.get(maxPos).getImaginary() == 0) {
+			if(arr.get(i).getImaginary() == 0) {
 				cnt++;
 			}
 		}
