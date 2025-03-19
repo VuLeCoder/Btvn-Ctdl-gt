@@ -2,6 +2,7 @@ package Bt2;
 
 public class Point_2D {
 	private double x, y;
+	protected int check = 2;
 	
 	public Point_2D(double x, double y) {
 		this.x = x;
@@ -30,6 +31,7 @@ public class Point_2D {
 	}
 	
 	public double distanceTo(Point_2D point) {
+		System.out.println(false);
 		return Math.sqrt((this.x - point.getX()) * (this.x - point.getX()) + (this.y - point.getY()) * (this.y - point.getY()));
 	}
 	

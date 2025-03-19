@@ -115,7 +115,7 @@ public class Game {
 		}
 		System.out.println();
 		
-		System.out.println("  ------------------------------------");
+		System.out.println("  -------------------------------------");
 		for(int i=0; i<MAX; ++i)
 		{
 			System.out.print((i + 1) + " | ");
@@ -126,7 +126,7 @@ public class Game {
 				System.out.print(" | ");
 			}
 			System.out.println();
-			System.out.println("  ------------------------------------");
+			System.out.println("  -------------------------------------");
 		}
 		System.out.println();
 		System.out.println();

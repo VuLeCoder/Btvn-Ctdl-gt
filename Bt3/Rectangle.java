@@ -1,45 +1,69 @@
 package Bt3;
 
 public class Rectangle implements Shape{
-	// Chua lam :(
-	// Ai ciu di :(
-	public Rectangle() {
+	private Point[] point = new Point[4];
+	private double w, h;
+	public Rectangle(double x, double y, double w, double h) {
+		this.w = w;
+		this.h = h;
 		
+		point[0] = new Point(x, y);
+		point[1] = new Point(x + w, y);
+		point[2] = new Point(x + w, y + h);
+		point[3] = new Point(x, y + h);
 	}
 
 	@Override
 	public double area() {
-		// TODO Auto-generated method stub
-		return 0;
+		return h * w;
 	}
 
 	@Override
 	public double perimeter() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (h + w) * 2;
 	}
 
 	@Override
-	public double distanceTo(Shape other) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public double distanceTo(Shape other) { return 0; }
 
 	@Override
 	public void move(double dx, double dy) {
-		// TODO Auto-generated method stub
-		
+		for(int i=0; i<point.length; ++i) {
+			point[i].move(dx, dy);
+		}
 	}
 
 	@Override
 	public void rotate(double da) {
-		// TODO Auto-generated method stub
-		
+		double rad = Math.toRadians(da);
+	    double cosA = Math.cos(rad);
+	    double sinA = Math.sin(rad);
+
+	    double centerX = (point[0].getX() + point[2].getX()) / 2;
+	    double centerY = (point[0].getY() + point[2].getY()) / 2;
+
+	    for (int i = 0; i < point.length; i++) {
+	        double x = point[i].getX();
+	        double y = point[i].getY();
+	        
+	        double newX = centerX + (x - centerX) * cosA - (y - centerY) * sinA;
+	        double newY = centerY + (x - centerX) * sinA + (y - centerY) * cosA;
+	        
+	        point[i] = new Point(newX, newY);
+	    }
 	}
 
 	@Override
 	public void zoom(double dr) {
-		// TODO Auto-generated method stub
-		
+		double centerX = (point[0].getX() + point[2].getX()) / 2;
+	    double centerY = (point[0].getY() + point[2].getY()) / 2;
+	    
+	    w *= dr;
+	    h *= dr;
+
+	    point[0] = new Point(centerX - w / 2, centerY - h / 2);
+	    point[1] = new Point(centerX + w / 2, centerY - h / 2);
+	    point[2] = new Point(centerX + w / 2, centerY + h / 2);
+	    point[3] = new Point(centerX - w / 2, centerY + h / 2);
 	}
 }

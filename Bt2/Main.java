@@ -13,22 +13,34 @@ public class Main {
 // ------------------------------------------------------------------------------------
 		double distance2D = 0, distance3D = 0;
 		Point_2D p1, p2;
+//		for(int i=0; i<arr.size(); ++i) {
+//			p1 = arr.get(i);
+//			
+//			for(int j=i+1; j<arr.size(); ++j) {
+//				p2 = arr.get(j);
+//				
+//				if(p1 instanceof Point_3D && p2 instanceof Point_3D) {
+//					distance3D += p1.distanceTo(p2);
+//				} else {
+//					if(p1 instanceof Point_3D || p2 instanceof Point_3D) {
+//						continue;
+//					}
+//					distance2D += p1.distanceTo(p2);
+//				}
+//			}
+//		}
+		
 		for(int i=0; i<arr.size(); ++i) {
 			p1 = arr.get(i);
 			
 			for(int j=i+1; j<arr.size(); ++j) {
 				p2 = arr.get(j);
 				
-				if(p1 instanceof Point_3D && p2 instanceof Point_3D) {
-					distance3D += p1.distanceTo(p2);
-				} else {
-					if(p1 instanceof Point_3D || p2 instanceof Point_3D) {
-						continue;
-					}
-					distance2D += p1.distanceTo(p2);
-				}
+				distance3D += p1.distanceTo(p2);
+				distance2D += p1.distanceTo(p2);
 			}
 		}
+		
 		System.out.println("Tong khoang cach giua cac diem 2D : " + distance2D);
 		System.out.println("Tong khoang cach giua cac diem 3D : " + distance3D);
 
@@ -41,7 +53,20 @@ public class Main {
 		for(int i=0; i<arr.size(); ++i) {
 			System.out.println(arr.get(i).toString());
 		}
+		
+// ------------------------------------------------------------------------------------
+		int cnt_3D = 0;
+		for(Point_2D p : arr) {
+			if(p instanceof Point_3D) {
+				cnt_3D++;
+			}
+		}
+		System.out.println("Số điểm 2D : " + (arr.size() - cnt_3D));
+		System.out.println("Số điểm 3D : " + cnt_3D);
+		
 	}
+	
+		
 }
 
 
