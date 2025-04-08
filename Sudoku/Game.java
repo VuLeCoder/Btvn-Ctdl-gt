@@ -1,15 +1,23 @@
 package Sudoku;
 
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Game {
+	private static String str = "print board (0) | undo (1) | redo (2) | hint (3) | fill (4) \nSelect your option : ";
 	private final int MAX = 9, SMALL = 3, DEL_CELL;
 	private int missCell;
 	private Node[][] board;
 	private int[][] Ans;
-
+	
+	private Stack<Pair> undo, redo;
+	
 	public Game(int n) {
+		undo = new Stack<Pair>();
+		redo = new Stack<Pair>();
+		
 		DEL_CELL = n;
 		missCell = DEL_CELL * 9;
 		
@@ -21,6 +29,14 @@ public class Game {
 			}
 		}
 		createGame();
+	}
+	
+	private void correct() {
+		missCell--;
+	}
+	
+	private boolean isGameOver() {
+		return missCell == 0;
 	}
 	
 	private boolean isValid(int row, int col, int num) {
@@ -132,39 +148,153 @@ public class Game {
 		System.out.println();
 	}
 	
-	public void play() {		
-		Scanner sc = new Scanner(System.in);
+	private void fillCell(Scanner sc) {
 		int currRow, currCol, currNum;
 		
-		printBoard();
-		
-		while(true)
-		{
-			System.out.println("Player enter your move (row, column and number: 1 1 1, 1 2 1, ...): ");
+		try {
+			System.out.print("Player enter your move (row, column and number: 1 1 1, 1 2 1, ...): ");
 			currRow = sc.nextInt();
 			currCol = sc.nextInt();
 			currNum = sc.nextInt();
 			currRow--; currCol--;
-			
-			if(!isValidIn(currRow, currCol, currNum))
-			{
+				
+			if(!isValidIn(currRow, currCol, currNum)) {
 				System.out.println("This move is invalid. Try again.");
-				continue;
+				return;
 			}
-			
-			if(currNum != Ans[currRow][currCol])
-			{
+				
+			if(currNum != Ans[currRow][currCol]) {
 				System.out.println("This move is wrong. Try again.");
-				continue;
+				return;
 			}
 			
-			missCell--;
+			correct();
 			board[currRow][currCol].setValue(currNum);
+			undo.push(new Pair(currRow, currCol, currNum));
 			
-			printBoard();
-			if(missCell == 0) break;
+		} catch (InputMismatchException e) {
+            System.out.println("This move is invalid.");
+            sc.nextLine();
+        }
+	}
+
+	private void undoGame() {
+		if(undo.empty()) {
+			System.out.println("Cannot undo");
+			return;
 		}
-		System.out.println("You win!");
+		
+		Pair p = new Pair(undo.peek());
+		undo.pop();
+		redo.push(p);
+		
+		board[p.getRow()][p.getCol()].setValue(0);
+		System.out.println("You have just undone your action");
+	}
+	
+	private void redoGame() {
+		if(redo.empty()) {
+			System.out.println("Cannot redo");
+			return;
+		}
+		
+		Pair p = new Pair(redo.peek());
+		redo.pop();
+		undo.push(p);
+		
+		board[p.getRow()][p.getCol()].setValue(p.getVal());
+		System.out.println("You’ve redone the previous action.");
+	}
+	
+	private void hint(Scanner sc) {
+		int currRow, currCol;
+		
+		try {
+			System.out.print("Player enters the cell that needs hint (row, column and number: 1 1 1, 1 2 1, ...): ");
+			currRow = sc.nextInt();
+			currCol = sc.nextInt();
+			currRow--; currCol--;
+				
+			if(!isValidIn(currRow, currCol, 9) || board[currRow][currCol].getValue() != 0) {
+				System.out.println("This move is invalid. Try again.");
+				return;
+			}
+			
+			find_number(currRow, currCol);
+			
+		} catch (InputMismatchException e) {
+            System.out.println("This move is invalid.");
+            sc.nextLine();
+        }
+		
+		
+	}
+	
+	private void find_number(int currRow, int currCol) {
+		boolean[] nums = new boolean[10];
+		for(int i=0; i<nums.length; ++i) {
+			nums[i] = false;
+		}
+		
+		for(int i=0; i<MAX; ++i) {
+			nums[board[i][currCol].getValue()] = true;
+			nums[board[currRow][i].getValue()] = true;
+		}
+		
+		int r = (currRow / SMALL) * SMALL, c = (currCol / SMALL) * SMALL;
+		for(int i=0; i<SMALL; ++i) {
+			for(int j=0; j<SMALL; ++j) {
+				nums[board[r + i][c + j].getValue()] = true;
+			}
+		}
+		
+		System.out.print("This cell can contain one of the following numbers : ");
+		for(int i=1; i<=MAX; ++i) {
+			if(!nums[i]) {
+				System.out.print(i + " ");
+			}
+		}
+		System.out.println();
+	}
+
+	public void play() {
+		printBoard();
+		
+		Scanner sc = new Scanner(System.in);
+		
+		int option;
+		while(!isGameOver()) {
+			try {
+				System.out.println(str);
+				option = sc.nextInt();
+				
+				if(option < 0 || option > 4) {
+					System.out.println("This move is invalid. Try again.");
+				}
+				
+				switch(option) {
+					case 0:
+						printBoard();
+						break;
+					case 1:
+						undoGame();
+						break;
+					case 2:
+						redoGame();
+						break;
+					case 3:
+						hint(sc);
+						break;
+					case 4:
+						fillCell(sc);
+						break;
+				}
+			} catch (InputMismatchException e) {
+	            System.out.println("This option is invalid.");
+	            sc.nextLine();
+	        }
+		}
+		
 		sc.close();
 	}
 }
