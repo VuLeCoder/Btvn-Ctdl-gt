@@ -9,8 +9,7 @@ public class Paint {
         shapes.add(new Point(2, 3));
         shapes.add(new Circle(5, 5, 2));
         shapes.add(new Line(new Point(0, 0), new Point(4, 0)));
-//        shapes.add(new Triangle(new Point(0, 0), new Point(3, 0), new Point(0, 4)));
-//        shapes.add(new Rectangle(new Point(2, 2), 4, 6));
+        shapes.add(new Rectangle(2, 2, 4, 6));
 
         for (Shape shape : shapes) {
             System.out.println(shape);

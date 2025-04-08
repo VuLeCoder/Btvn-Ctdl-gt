@@ -1,5 +1,7 @@
 package Bt3;
 
+import java.util.Arrays;
+
 public class Rectangle implements Shape{
 	private Point[] point = new Point[4];
 	private double w, h;
@@ -65,5 +67,10 @@ public class Rectangle implements Shape{
 	    point[1] = new Point(centerX + w / 2, centerY - h / 2);
 	    point[2] = new Point(centerX + w / 2, centerY + h / 2);
 	    point[3] = new Point(centerX - w / 2, centerY + h / 2);
+	}
+
+	@Override
+	public String toString() {
+		return "Rectangle [point=" + Arrays.toString(point) + ", w=" + w + ", h=" + h + "]";
 	}
 }

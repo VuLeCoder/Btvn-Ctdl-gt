@@ -1,6 +1,6 @@
 package Bt3;
 
-public class Circle implements Shape {
+public class Circle implements Shape, Center {
 	Point p;
 	private double r;
 	
@@ -48,5 +48,15 @@ public class Circle implements Shape {
 	@Override
 	public void zoom(double dr) {
 		r *= dr;
+	}
+
+	@Override
+	public Shape getCenter() {
+		return p;
+	}
+
+	@Override
+	public Shape getBoundary() {
+		return new Rectangle(p.getX() - r, p.getY() - r, r, r);
 	}
 }
