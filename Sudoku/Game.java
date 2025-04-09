@@ -12,11 +12,11 @@ public class Game {
 	private Node[][] board;
 	private int[][] Ans;
 	
-	private Stack<Pair> undo, redo;
+	private Stack<Node> undo, redo;
 	
 	public Game(int n) {
-		undo = new Stack<Pair>();
-		redo = new Stack<Pair>();
+		undo = new Stack<Node>();
+		redo = new Stack<Node>();
 		
 		DEL_CELL = n;
 		missCell = DEL_CELL * 9;
@@ -170,7 +170,7 @@ public class Game {
 			
 			correct();
 			board[currRow][currCol].setValue(currNum);
-			undo.push(new Pair(currRow, currCol, currNum));
+			undo.push(new Node(currRow, currCol, currNum));
 			
 		} catch (InputMismatchException e) {
             System.out.println("This move is invalid.");
@@ -184,11 +184,11 @@ public class Game {
 			return;
 		}
 		
-		Pair p = new Pair(undo.peek());
+		Node p = new Node(undo.peek());
 		undo.pop();
 		redo.push(p);
 		
-		board[p.getRow()][p.getCol()].setValue(0);
+		board[p.getX()][p.getY()].setValue(0);
 		System.out.println("You have just undone your action");
 	}
 	
@@ -198,11 +198,11 @@ public class Game {
 			return;
 		}
 		
-		Pair p = new Pair(redo.peek());
+		Node p = new Node(redo.peek());
 		redo.pop();
 		undo.push(p);
 		
-		board[p.getRow()][p.getCol()].setValue(p.getVal());
+		board[p.getX()][p.getY()].setValue(p.getValue());
 		System.out.println("You’ve redone the previous action.");
 	}
 	
@@ -226,7 +226,6 @@ public class Game {
             System.out.println("This move is invalid.");
             sc.nextLine();
         }
-		
 		
 	}
 	
